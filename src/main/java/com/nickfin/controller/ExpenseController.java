@@ -1,30 +1,25 @@
 package com.nickfin.controller;
 
 import com.nickfin.entity.Expense;
-import com.nickfin.repository.ExpenseRepository;
+import com.nickfin.service.ExpenseServiceImpl;
 
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class ExpenseController {
-    @Autowired
-    ExpenseRepository expenseRepository;
+    ExpenseServiceImpl expenseService = new ExpenseServiceImpl();
 
     @GetMapping("/expense/")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<List<Expense>> getAllExpenses() {
         try {
-            List<Expense> expenses = expenseRepository.findAll();
+            List<Expense> expenses = expenseService.getAllExpenses();
 
             return ResponseEntity.ok().body(expenses);
         } catch (Exception e) {
@@ -34,9 +29,33 @@ public class ExpenseController {
 
     @PostMapping("/expense/")
     @Produces(MediaType.APPLICATION_JSON)
-    public ResponseEntity<Void> create(@RequestBody Expense expense) {
+    public ResponseEntity<Expense> create(@RequestBody Expense expense) {
         try {
-            expenseRepository.save(expense);
+            Expense newExpense = expenseService.createExpense(expense);
+
+            return ResponseEntity.ok().body(newExpense);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/expense/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseEntity<Expense> update(@RequestBody Expense expense) {
+        try {
+            Expense updatedExpense = expenseService.updateExpense(expense);
+
+            return ResponseEntity.ok().body(updatedExpense);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/expense/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseEntity<Expense> delete(@RequestBody Expense expense) {
+        try {
+            expenseService.deleteExpense(expense.getId());
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
