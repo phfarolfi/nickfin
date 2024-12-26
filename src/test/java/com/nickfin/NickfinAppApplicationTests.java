@@ -1,4 +1,4 @@
-package com.uchpdr.nickfin_app;
+package com.nickfin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

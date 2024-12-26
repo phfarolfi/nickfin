@@ -1,8 +1,3 @@
-# Read Me First
-The following was discovered as part of building this project:
-
-* The original package name 'com.uchpdr.nickfin-app' is invalid and this project uses 'com.uchpdr.nickfin_app' instead.
-
 # Getting Started
 
 ### Reference Documentation
