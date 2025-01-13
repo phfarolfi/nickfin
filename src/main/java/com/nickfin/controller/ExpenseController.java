@@ -6,6 +6,7 @@ import com.nickfin.service.ExpenseServiceImpl;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,8 @@ import java.util.List;
 
 @RestController
 public class ExpenseController {
-    ExpenseServiceImpl expenseService = new ExpenseServiceImpl();
+    @Autowired
+    ExpenseServiceImpl expenseService;
 
     @GetMapping("/expense/")
     @Produces(MediaType.APPLICATION_JSON)
