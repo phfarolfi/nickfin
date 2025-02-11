@@ -11,6 +11,8 @@ public interface ExpenseService {
 
     public List<Expense> getAllExpenses();
 
+    public List<Expense> getExpensesByPeriod(Long start, Long end);
+
     public Expense updateExpense(Expense expense);
 
     public void deleteExpense(Long id);

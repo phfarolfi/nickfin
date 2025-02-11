@@ -3,63 +3,69 @@ import moment from "moment"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 
 import { Expense, Revenue } from "../../commom/types"
-import { getAllExpenses } from "../../services/expense"
-import { getAllRevenues } from "../../services/revenue"
+import { getExpenses } from "../../services/expense"
+import { getRevenues } from "../../services/revenue"
 
 const MainPage: React.FC = () => {
     const [expenses, setExpenses] = useState<Expense[]>()
     const [revenues, setRevenues] = useState<Revenue[]>()
-    const [period, setPeriod] = useState<{ start: number; end: number }>({
-        start: 1736084800,
-        end: 1737763200,
-    })
+    const [period, setPeriod] = useState<{ start: number; end: number }>()
 
     useEffect(() => {
-        async function fetchExpenses() {
-            const expenses = await getAllExpenses()
-
-            setExpenses(expenses)
+        if (period) {
+            fetchExpenses(period?.start, period?.end)
+            fetchRevenues(period?.start, period?.end)
         }
+    }, [period])
 
-        async function fetchRevenues() {
-            const revenues = await getAllRevenues()
-
-            setRevenues(revenues)
-        }
-
-        fetchExpenses()
-        fetchRevenues()
+    useEffect(() => {
+        setPeriod({
+            start: moment().startOf("month").unix(),
+            end: moment().endOf("month").unix(),
+        })
     }, [])
+
+    async function fetchExpenses(start?: number, end?: number) {
+        const expenses = await getExpenses(start, end)
+
+        setExpenses(expenses)
+    }
+
+    async function fetchRevenues(start?: number, end?: number) {
+        const revenues = await getRevenues(start, end)
+
+        setRevenues(revenues)
+    }
 
     return (
         <div className="container">
             <div className="period-selection">
                 <DatePicker
                     label="De"
-                    value={moment.unix(period.start)}
-                    onChange={(newValue) => setPeriod({...period, start: newValue?.unix() as number})}
+                    value={moment.unix(period?.start ?? 0)}
+                    onChange={(newValue) => setPeriod({...period, start: newValue?.unix() as number, end: period?.end ?? moment().endOf("month").unix()})}
                 />
                 <DatePicker
                     label="Até"
-                    value={moment.unix(period.end)}
-                    onChange={(newValue) => setPeriod({...period, end: newValue?.unix() as number})}
+                    value={moment.unix(period?.end ?? 0)}
+                    onChange={(newValue) => setPeriod({...period, end: newValue?.unix() as number, start: period?.start ?? moment().startOf("month").unix()})}
                 />
             </div>
-            {expenses && (
+            {expenses && expenses.length > 0 && (
                 <>
                     <p>Despesas:</p>
                     <ul>
                         {expenses.map((expense, i) => (
                             <li key={i}>
-                                {expense.date}, {expense.installmentNumber}, {expense.description}, {expense.paymentMethod}, 
-                                {expense.payer}, {expense.payee}, {expense.amount}, {expense.category}, 
-                                {expense.paid.toString()}
+                               ID: {expense.id}, Data de cobrança: {expense.date}, Criado em {expense.createdAt}, Parcela {expense.installmentNumber}/{expense.installmentTotal}, {expense.description}, {expense.paymentMethod}, 
+                                {' '}{expense.payer}, {expense.payee}, R${expense.amount}, {expense.category}, 
+                                {expense.paid ? ' Pago' : ' Não pago'}
                             </li>
                         ))}
                     </ul>
                 </>
             )}
-            {revenues && (
+            {revenues && revenues.length > 0 && (
                 <>
                     <p>Receitas:</p>
                     <ul>

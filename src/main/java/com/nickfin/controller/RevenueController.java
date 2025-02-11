@@ -17,11 +17,23 @@ public class RevenueController {
     @Autowired
     RevenueServiceImpl revenueService;
 
-    @GetMapping("/revenue/")
+    @GetMapping("/revenue/all/")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<List<Revenue>> getAllRevenues() {
         try {
             List<Revenue> revenues = revenueService.getAllRevenues();
+
+            return ResponseEntity.ok().body(revenues);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/revenue/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseEntity<List<Revenue>> getRevenues(@RequestParam(required = false) Long start, @RequestParam(required = false) Long end) {
+        try {
+            List<Revenue> revenues = revenueService.getRevenuesByPeriod(start, end);
 
             return ResponseEntity.ok().body(revenues);
         } catch (Exception e) {

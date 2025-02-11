@@ -9,7 +9,10 @@ public class Entry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Long date;
+
     private Long createdAt;
     private String description;
     private String paymentMethod;

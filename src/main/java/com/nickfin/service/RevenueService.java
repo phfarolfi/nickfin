@@ -11,6 +11,8 @@ public interface RevenueService {
 
     public List<Revenue> getAllRevenues();
 
+    public List<Revenue> getRevenuesByPeriod(Long start, Long end);
+
     public Revenue updateRevenue(Revenue expense);
 
     public void deleteRevenue(Long id);

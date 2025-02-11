@@ -5,7 +5,11 @@ import com.nickfin.repository.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.time.ZoneId;
+import java.time.LocalDate;
+import java.time.Instant;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {
@@ -33,6 +37,22 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         return expense;
     }
+
+    @Override
+    public List<Expense> getExpensesByPeriod(Long start, Long end) {
+        if (start != null && end != null) {
+            return expenseRepository.findAllByDateBetween(start, end);
+        }
+
+        if (start != null) {
+            return expenseRepository.findAllWithDateAfter(start);
+        }
+
+        if (end != null) {
+            return expenseRepository.findAllWithDateBefore(end);
+        }
+
+        return expenseRepository.findAll();
     }
 
     @Override

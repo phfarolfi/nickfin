@@ -17,11 +17,23 @@ public class ExpenseController {
     @Autowired
     ExpenseServiceImpl expenseService;
 
-    @GetMapping("/expense/")
+    @GetMapping("/expense/all/")
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<List<Expense>> getAllExpenses() {
         try {
             List<Expense> expenses = expenseService.getAllExpenses();
+
+            return ResponseEntity.ok().body(expenses);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/expense/")
+    @Produces(MediaType.APPLICATION_JSON)
+    public ResponseEntity<List<Expense>> getExpenses(@RequestParam(required = false) Long start,  @RequestParam(required = false) Long end) {
+        try {
+            List<Expense> expenses = expenseService.getExpensesByPeriod(start, end);
 
             return ResponseEntity.ok().body(expenses);
         } catch (Exception e) {

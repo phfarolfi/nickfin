@@ -28,6 +28,23 @@ public class RevenueServiceImpl implements RevenueService {
     }
 
     @Override
+    public List<Revenue> getRevenuesByPeriod(Long start, Long end) {
+        if (start != null && end != null) {
+            return revenueRepository.findAllByDateBetween(start, end);
+        }
+
+        if (start != null) {
+            return revenueRepository.findAllWithDateAfter(start);
+        }
+
+        if (end != null) {
+            return revenueRepository.findAllWithDateBefore(end);
+        }
+
+        return revenueRepository.findAll();
+    }
+
+    @Override
     public Revenue updateRevenue(Revenue expense) {
         return revenueRepository.save(expense);
     }
