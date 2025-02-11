@@ -1,14 +1,17 @@
-export interface Expense {
+export interface Entry {
     id: number
     date: number
     createdAt: number
-    installmentNumber: number
     description: string
     paymentMethod: string
     payer: string
-    payee: string
     category: string
     amount: number
+}
+
+export interface Expense extends Entry {
+    installmentNumber: number
+    payee: string
     paid: boolean
 }
 
@@ -23,3 +26,5 @@ export interface ExpenseDTO {
     amount: number
     paid: boolean
 }
+
+export type Revenue = Entry

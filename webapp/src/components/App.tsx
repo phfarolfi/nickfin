@@ -1,9 +1,16 @@
-import "./styles.ts"
-import MainPage from "./main-page/index.tsx"
-import { appContextWrapper, useAppContext } from "./AppContext.tsx"
-import { Tab } from "./constants.ts"
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment"
+
+import "./styles.ts"
+import { Tab } from "./constants.ts"
+import MainPage from "./homepage/index.tsx"
+import NewExpense from "./expense/NewExpense.tsx"
+import { appContextWrapper, useAppContext } from "./AppContext.tsx"
+
+const Page = {
+    [Tab.HOME]: <MainPage />,
+    [Tab.NEW_EXPENSE]: <NewExpense />,
+}
 
 function App() {
     const { tab, setTab } = useAppContext()
@@ -16,10 +23,13 @@ function App() {
                         <li>
                             <button onClick={() => setTab(Tab.HOME)}>Home</button>
                         </li>
+                        <li>
+                            <button onClick={() => setTab(Tab.NEW_EXPENSE)}>Nova despesa</button>
+                        </li>
                     </ul>
                 </nav>
             </header>
-            <MainPage />
+            {Page[tab]}
         </LocalizationProvider>
     )
 }

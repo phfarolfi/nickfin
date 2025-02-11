@@ -10,30 +10,30 @@ import java.util.List;
 @Service
 public class RevenueServiceImpl implements RevenueService {
     @Autowired
-    private RevenueRepository expenseRepository;
+    private RevenueRepository revenueRepository;
 
     @Override
     public Revenue createRevenue(Revenue expense) {
-        return expenseRepository.save(expense);
+        return revenueRepository.save(expense);
     }
 
     @Override
     public Revenue getRevenueById(Long id) {
-        return expenseRepository.getReferenceById(id);
+        return revenueRepository.getReferenceById(id);
     }
 
     @Override
     public List<Revenue> getAllRevenues() {
-        return expenseRepository.findAll();
+        return revenueRepository.findAll();
     }
 
     @Override
     public Revenue updateRevenue(Revenue expense) {
-        return expenseRepository.save(expense);
+        return revenueRepository.save(expense);
     }
 
     @Override
     public void deleteRevenue(Long id) {
-        expenseRepository.deleteById(id);
+        revenueRepository.deleteById(id);
     }
 }

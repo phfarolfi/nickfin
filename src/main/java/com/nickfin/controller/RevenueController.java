@@ -33,6 +33,7 @@ public class RevenueController {
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<Revenue> create(@RequestBody Revenue revenue) {
         try {
+            revenue.setCreatedAt(System.currentTimeMillis() / 1000);
             Revenue newRevenue = revenueService.createRevenue(revenue);
 
             return ResponseEntity.ok().body(newRevenue);

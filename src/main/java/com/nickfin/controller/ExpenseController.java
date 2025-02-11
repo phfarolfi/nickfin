@@ -33,6 +33,7 @@ public class ExpenseController {
     @Produces(MediaType.APPLICATION_JSON)
     public ResponseEntity<Expense> create(@RequestBody Expense expense) {
         try {
+            expense.setCreatedAt(System.currentTimeMillis() / 1000);
             Expense newExpense = expenseService.createExpense(expense);
 
             return ResponseEntity.ok().body(newExpense);
