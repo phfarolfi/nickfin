@@ -6,10 +6,12 @@ import { Tab } from "./constants.ts"
 import MainPage from "./homepage/index.tsx"
 import NewExpense from "./expense/NewExpense.tsx"
 import { appContextWrapper, useAppContext } from "./AppContext.tsx"
+import NewRevenue from "./revenue/NewRevenue.tsx"
 
 const Page = {
     [Tab.HOME]: <MainPage />,
     [Tab.NEW_EXPENSE]: <NewExpense />,
+    [Tab.NEW_REVENUE]: <NewRevenue />,
 }
 
 function App() {
@@ -25,6 +27,9 @@ function App() {
                         </li>
                         <li>
                             <button onClick={() => setTab(Tab.NEW_EXPENSE)}>Nova despesa</button>
+                        </li>
+                        <li>
+                            <button onClick={() => setTab(Tab.NEW_REVENUE)}>Nova receita</button>
                         </li>
                     </ul>
                 </nav>

@@ -1,4 +1,5 @@
 export enum Tab {
     HOME = "home",
     NEW_EXPENSE = "new-expense",
+    NEW_REVENUE = "new-revenue",
 }

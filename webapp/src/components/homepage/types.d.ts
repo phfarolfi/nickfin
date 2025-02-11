@@ -28,3 +28,12 @@ export interface ExpenseDTO {
 }
 
 export type Revenue = Entry
+
+export interface RevenueDTO {
+    date: number
+    description: string
+    paymentMethod: string
+    payer: string
+    category: string
+    amount: number
+}
