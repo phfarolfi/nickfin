@@ -14,7 +14,25 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public Expense createExpense(Expense expense) {
-        return expenseRepository.save(expense);
+        List<Expense> installmentExpenses = new ArrayList<>();
+        ZoneId zone = ZoneId.systemDefault();
+
+        // Convert Unix timestamp to LocalDate
+        LocalDate initialDate = Instant.ofEpochSecond(expense.getDate()).atZone(zone).toLocalDate();
+
+        for (int i = 0; i < expense.getInstallmentTotal(); i++) {
+            LocalDate newDate = initialDate.plusMonths(i); // Increment date by one month
+            Long newDateUnix = newDate.atStartOfDay(zone).toEpochSecond(); // Convert back to Unix timestamp
+
+            Expense newExpense = copyWithNewDate(expense, newDateUnix, i+1);
+
+            installmentExpenses.add(newExpense);
+        }
+
+        expenseRepository.saveAll(installmentExpenses);
+
+        return expense;
+    }
     }
 
     @Override
@@ -35,5 +53,26 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public void deleteExpense(Long id) {
         expenseRepository.deleteById(id);
+    }
+
+    public Expense copyWithNewDate(Expense expense, Long newDateUnix, int installmentCounter) {
+        Expense newExpense = new Expense(); // Copy data from the original expense
+
+        // Entry
+        newExpense.setDate(newDateUnix);
+        newExpense.setCreatedAt(expense.getCreatedAt());
+        newExpense.setDescription(expense.getDescription());
+        newExpense.setPaymentMethod(expense.getPaymentMethod());
+        newExpense.setPayer(expense.getPayer());
+        newExpense.setCategory(expense.getCategory());
+        newExpense.setAmount(expense.getAmount());
+
+        // Expense
+        newExpense.setInstallmentNumber((long) installmentCounter);
+        newExpense.setInstallmentTotal(expense.getInstallmentTotal());
+        newExpense.setPayee(expense.getPayee());
+        newExpense.setPaid(false);
+
+        return newExpense;
     }
 }

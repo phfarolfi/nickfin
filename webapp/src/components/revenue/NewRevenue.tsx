@@ -1,7 +1,8 @@
 import React from "react"
 import moment from "moment"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
-import { RevenueDTO } from "../homepage/types"
+
+import { RevenueDTO } from "../../commom/types"
 import { newRevenue } from "../../services/revenue"
 
 const NewRevenue: React.FC = () => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import moment from "moment"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
 
-import { Expense, Revenue } from "./types"
+import { Expense, Revenue } from "../../commom/types"
 import { getAllExpenses } from "../../services/expense"
 import { getAllRevenues } from "../../services/revenue"
 

@@ -1,13 +1,14 @@
 import React from "react"
 import moment from "moment"
 import { DatePicker } from "@mui/x-date-pickers/DatePicker"
-import { ExpenseDTO } from "../homepage/types"
+
+import { ExpenseDTO } from "../../commom/types"
 import { newExpense } from "../../services/expense"
 
 const NewExpense: React.FC = () => {
     const [form, setForm] = React.useState<ExpenseDTO>({
         date: moment().unix(),
-        installmentNumber: 1,
+        installmentTotal: 1,
         description: "",
         paymentMethod: "",
         payer: "",
@@ -40,8 +41,8 @@ const NewExpense: React.FC = () => {
                             type="number"
                             min="1"
                             step="1"
-                            name="installmentNumber"
-                            value={form.installmentNumber}
+                            name="installmentTotal"
+                            value={form.installmentTotal}
                             onChange={handleChange}
                         />
                     </div>

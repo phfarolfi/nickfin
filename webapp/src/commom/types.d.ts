@@ -11,13 +11,14 @@ export interface Entry {
 
 export interface Expense extends Entry {
     installmentNumber: number
+    installmentTotal: number
     payee: string
     paid: boolean
 }
 
 export interface ExpenseDTO {
     date: number
-    installmentNumber: number
+    installmentTotal: number
     description: string
     paymentMethod: string
     payer: string
